@@ -305,7 +305,7 @@
                 <a href="#" id="openTournamentModal" style="display:inline-flex; align-items:center; justify-content:center; padding:12px 18px; border-radius:999px; background:#9CC8FF; color:#0A0F1A; font-weight:1000; min-width:140px;">立即报名 →</a>
             </div>
 
-            <button id="closeBanner" aria-label="close" style="position:absolute; right:10px; top:10px; width:36px; height:36px; border-radius:999px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.25); color:#fff; font-size:18px; cursor:pointer;">×</button>
+            <!-- banner close removed -->
         </div>
     </div>
 
@@ -325,7 +325,8 @@
 <section id="events" class="container">
     <h2>赛事信息</h2>
     <div class="card event-list">
-        <p>目前未开始赛事，敬请期待！</p>
+        <p style="margin:0; font-size:16px;">即将开赛，敬请期待！</p>
+        <p style="margin:10px 0 0 0; color:#BBD8FF; font-size:14px; line-height:1.6;">日期：3 / 4 / 5 April 2026（3:00PM / 7:00PM）</p>
     </div>
 </section>
 
@@ -410,26 +411,30 @@
         // 汉堡菜单功能
         const hamburger = document.getElementById('hamburger-menu');
         const nav = document.getElementById('main-nav');
-        hamburger.addEventListener('click', function() {
-            nav.classList.toggle('active');
-        });
-        hamburger.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
+        if (hamburger && nav) {
+            hamburger.addEventListener('click', function() {
                 nav.classList.toggle('active');
-            }
-        });
-        // 点击导航链接后自动收起菜单（移动端体验优化）
-        nav.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
-                nav.classList.remove('active');
             });
-        });
+            hamburger.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    nav.classList.toggle('active');
+                }
+            });
+        }
+        // 点击导航链接后自动收起菜单（移动端体验优化）
+        if (nav) {
+            nav.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    nav.classList.remove('active');
+                });
+            });
+        }
 
         // Tournament modal + banner
         const modal = document.getElementById('tournamentModal');
         const openBtn = document.getElementById('openTournamentModal');
         const closeBtn = document.getElementById('closeTournamentModal');
-        const closeBannerBtn = document.getElementById('closeBanner');
+        // const closeBannerBtn = document.getElementById('closeBanner'); // removed
 
         function showModal(){ if(modal) modal.classList.add('show'); }
         function hideModal(){ if(modal) modal.classList.remove('show'); }
@@ -447,19 +452,7 @@
                 if(e.target === modal) hideModal();
             });
         }
-        if(closeBannerBtn){
-            closeBannerBtn.addEventListener('click', function(){
-                const card = closeBannerBtn.closest('.card');
-                if(card) card.style.display = 'none';
-                try{ localStorage.setItem('h2o_banner_hide', '1'); }catch(err){}
-            });
-            try{
-                if(localStorage.getItem('h2o_banner_hide')==='1'){
-                    const card = closeBannerBtn.closest('.card');
-                    if(card) card.style.display='none';
-                }
-            }catch(err){}
-        }
+        // Banner close disabled (no X)
 
         // Auto popup once per day
         try{
